@@ -7,8 +7,7 @@
     <title th:text="${title}">app</title>
     <meta name="description" content="有想法就去做，努力将想法变成现实">
     <meta name="keywords" content="学,做,学习,实作">
-    <th:block th:replace="${css}" />
-    <link rel="stylesheet" href="../static/build/assets/app.css" th:href="@{/build/assets/app.css}" />
+    <lms:vite type="css"/>
 </head>
 <body class="d-flex flex-column h-100">
 <header>
