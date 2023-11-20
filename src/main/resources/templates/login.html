@@ -1,4 +1,4 @@
-<div th:replace="~{ app :: layout ('Login Page', _, ~{::#main_content}) }" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{ app :: layout ('Login Page', _, ~{::#main_content}, _) }" xmlns:th="http://www.thymeleaf.org">
   <div class="container" id="main_content">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -59,7 +59,7 @@
                     忘记密码
                   </a>
 
-                  <a class="btn btn-link font-size-12 text-muted" href="register">
+                  <a class="btn btn-link font-size-12 text-muted" href="/register">
                     注册新账号
                   </a>
                 </div>

@@ -1,0 +1,44 @@
+<div th:replace="~{ app :: layout (${post.title}, ~{::#css_content}, ~{::#main_content}, ~{::#js_content}) }" xmlns:th="http://www.thymeleaf.org">
+  <div class="container mb-2rem" id="main_content">
+    <div class="row">
+      <div class="resource-wrapper mb-3 bg-light rounded-lg overflow-hidden space-top-1 pl-5 pl-lg-0 pr-0 pr-lg-5">
+        <div class="row justify-content-lg-between align-items-lg-center no-gutters">
+          <div class="col-lg-4 order-1 order-lg-2">
+            <div class="mb-4">
+              <h2 th:text="${post.title}"></h2>
+              <p th:text="${post.description}"></p>
+            </div>
+            <div>
+              <a href="#" class="btn btn-primary transition-3d-hover">免费下载</a>
+            </div>
+          </div>
+
+          <div class="col-lg-7 order-2 order-lg-1 space-top-1 animate__animated animate__fadeInUp">
+            <img class="img-fluid shadow-lg" th:src="${post.cover}" width="755" height="470" th:alt="${post.title}">
+          </div>
+        </div>
+      </div>
+
+      <div id="vditor-preview-element" class="markdown-body p-3 p-md-0">
+        <div class="d-none" id="content" th:text="${post.content}"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link id="css_content" href="/vendor/vditor/dist/index.css" rel="stylesheet">
+
+<div id="js_content">
+  <script src="/vendor/vditor/dist/method.min.js"></script>
+  <script>
+    Vditor.preview(document.getElementById('vditor-preview-element'), document.getElementById('content').textContent,
+            {
+              cdn: '/vendor/vditor',
+              theme: {
+                path: '/vendor/vditor/dist/css/content-theme',
+              },
+              lazyLoadImage: '/vendor/vditor/dist/images/img-loading.svg',
+            }
+    );
+  </script>
+</div>

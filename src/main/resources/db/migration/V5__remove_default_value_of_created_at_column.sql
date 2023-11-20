@@ -1,0 +1,1 @@
+ALTER TABLE `post` CHANGE `created_at` `created_at` DATETIME  DEFAULT NULL  COMMENT '创建时间';

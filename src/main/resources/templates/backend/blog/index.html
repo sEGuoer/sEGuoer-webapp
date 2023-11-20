@@ -1,0 +1,120 @@
+<div th:replace="~{ backend/app :: layout ('Post 管理', _, ~{::#main}, ~{::#js}) }" xmlns:th="http://www.thymeleaf.org">
+    <div class="content-wrapper" id="main">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-12 d-flex justify-content-between">
+                        <h1>Post List</h1>
+                        <a href="#" th:href="@{/admin/blog/create}">Create New Post</a>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body table-responsive p-0">
+                                <table class="table table-hover text-nowrap">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <input name="delete" id="toggle_checkbox" type="checkbox"
+                                                   onClick="toggle_checkbox()"/>
+                                        </th>
+                                        <th>ID</th>
+                                        <th>Title</th>
+                                        <th>Status</th>
+                                        <th>Type</th>
+                                        <th>Created At</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="post, stats:${page.getContent()}">
+                                        <td><input name="ids[]" type="checkbox" th:value="${post.id}"
+                                                   class="delete_checkbox"/></td>
+                                        <th th:text="${post.id}">post id</th>
+                                        <td><a href="#" target="_blank" th:text="${post.title}">post tile</a></td>
+                                        <td th:text="${post.status}">post status</td>
+                                        <td th:text="${post.type}">post type</td>
+                                        <td th:text="${post.created_at}">post created_at</td>
+                                        <td class="center">
+                                            <a th:href="@{'/admin/blog/edit/' + ${post.id}}" class="text-sm">
+                                                Edit
+                                            </a>
+                                            <a class="text-sm pl-2" href="#" th:href="@{'/admin/blog/destroy/' + ${post.id}}"
+                                               th:onclick="|event.preventDefault(); if(confirm('Are you sure you want to Remove?')) document.getElementById('destroy-form-${post.id}').submit();|">
+                                                Remove
+                                                <form th:id="${'destroy-form-' + post.id}" th:action="@{'/admin/blog/destroy/' + ${post.id}}" th:method="delete" style="display: none;">
+                                                </form>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-default" onclick="batch_delete();">Batch Delete
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                        <div th:replace="~{fragment :: #pagination-container}"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script id="js">
+    function toggle_checkbox() {
+        if ($("#toggle_checkbox").prop('checked')) {
+            $(".delete_checkbox").prop("checked", true);
+        } else {
+            $(".delete_checkbox").prop("checked", false);
+        }
+    }
+
+    function batch_delete() {
+        let ids = $('.delete_checkbox:checked').map(function () {
+            return $(this).val();
+        }).get();
+        if (ids.length > 0) {
+            do_delete(ids);
+        } else {
+            alert('Please select which records you want to delete');
+        }
+    }
+
+    function do_delete(ids) {
+        if (confirm('Are you sure you want to remove? (id=' + ids + ')')) {
+            $.ajax({
+                url: '/admin/blog/destroy',
+                data: {
+                    ids: ids
+                },
+                type: "DELETE",
+            })
+                .done(function (response) {
+                    if ('DONE' === response) {
+                        location.href = '/admin/blogs';
+                    } else {
+                        console.log(response);
+                        alert(response);
+                    }
+                })
+                .fail(function (xhr, status, errorThrown) {
+                    alert("Sorry, there was a problem!");
+                    console.log("Error: " + errorThrown);
+                    console.log("Status: " + status);
+                })
+        }
+    }
+</script>

@@ -94,5 +94,8 @@ public class SecurityUser implements UserDetails {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
 
 }

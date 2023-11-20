@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="zh" th:fragment="layout(title, css, main_content)" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="zh" th:fragment="layout(title, css, main_content,js)" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="${title}">app</title>
     <!-- Google Font: Source Sans Pro -->
-    <link href="../../static/vendor/adminlte/fonts/fonts.css" th:href="@{../vendor/adminlte/fonts/fonts.css}" rel="stylesheet">
+    <link href="../../static/vendor/adminlte/fonts/fonts.css" th:href="@{/vendor/adminlte/fonts/fonts.css}" rel="stylesheet">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="../../static/vendor/adminlte/plugins/fontawesome-free/css/all.min.css" th:href="@{../vendor/adminlte/plugins/fontawesome-free/css/all.min.css}">
+    <link rel="stylesheet" href="../../static/vendor/adminlte/plugins/fontawesome-free/css/all.min.css" th:href="@{/vendor/adminlte/plugins/fontawesome-free/css/all.min.css}">
     <!-- Theme style -->
-    <link rel="stylesheet" href="../../static/vendor/adminlte/dist/css/adminlte.min.css" th:href="@{../vendor/adminlte/dist/css/adminlte.min.css}">
+    <link rel="stylesheet" href="../../static/vendor/adminlte/dist/css/adminlte.min.css" th:href="@{/vendor/adminlte/dist/css/adminlte.min.css}">
     <th:block th:replace="${css}" />
 </head>
 <body class="hold-transition sidebar-mini">
@@ -98,7 +98,7 @@
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item"  th:each="menu : ${menus}">
-                        <a href="dashboard.html" th:href="${menu.name}" class="nav-link" th:class="|nav-link ${requestURI == menu.description  ? ' active' : ''}|">
+                        <a href="dashboard.html" th:href="${menu.description}" class="nav-link" th:class="|nav-link ${requestURI == menu.description  ? ' active' : ''}|">
                             <i class="nav-icon fas fa-tachometer-alt" th:class="'nav-icon fas fa-' + ${menu.data}"></i> <p th:text="${menu.name}"></p>
                         </a>
                     </li>
@@ -129,12 +129,12 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="../../static/vendor/adminlte/plugins/jquery/jquery.min.js" th:src="@{../vendor/adminlte/plugins/jquery/jquery.min.js}"></script>
+<script src="../../static/vendor/adminlte/plugins/jquery/jquery.min.js" th:src="@{/vendor/adminlte/plugins/jquery/jquery.min.js}"></script>
 <!-- Bootstrap 4 -->
-<script src="../../static/vendor/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js" th:src="@{../vendor/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script src="../../static/vendor/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js" th:src="@{/vendor/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <!-- AdminLTE App -->
-<script src="../../static/vendor/adminlte/dist/js/adminlte.min.js" th:src="@{../vendor/adminlte/dist/js/adminlte.min.js}"></script>
-
+<script src="../../static/vendor/adminlte/dist/js/adminlte.min.js" th:src="@{/vendor/adminlte/dist/js/adminlte.min.js}"></script>
+<th:block th:replace="${js}" />
 </body>
 </html>
 

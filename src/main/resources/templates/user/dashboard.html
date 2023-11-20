@@ -1,40 +1,41 @@
-<div th:replace="~{ app :: layout ('用户页面', _, ~{::#main_content}) }" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-  <div class="container" id="main_content">
-      <div id="userInfo" class="row mx-md-5">
-        <div class="col-12 col-md-5">
-          <div class="card text-center" style="width: 18rem;">
-            <img src="img/Cache_247709949bd616a9..jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">用户名</h5>
-              <p class="card-text">个人简介</p>
-              <form action="fileUpload" method="post" enctype="multipart/form-data">
-                <input name="file" type="file">
-                <input class="btn btn-primary" type="submit">
-              </form>
+<div th:replace="~{ app :: layout ('用户页面', _, ~{::#main_content},_) }" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<div class="container user-center" id="main_content">
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <div class="text-center">
+              <img src="../../static/img/Cache_247709949bd616a9..jpg" th:src="@{'/img/Cache_247709949bd616a9..jpg'}" class="img-fluid rounded-circle avatar shadow-sm">
+              <p sec:authentication="name" class="text-muted font-size-14 mt-2 mb-2rem">user-name</p>
             </div>
-          </div>
-        </div>
-        <div class="col-md-7 col-12">
-          <div class="card m-auto">
-            <div class="card-header">
-              个人资料
-            </div>
-            <div class="card-body">
-              <div>用户名:<span class="ps-5" sec:authentication="name"></span></div>
-              <div>邮&emsp;箱:<span class="ps-5" id="userEmail" sec:authentication="principal.user.email"></span></div>
-            </div>
-            <div><button class="btn btn-primary" id="addBlogButton">发布一篇博客</button></div>
+
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a href="#" th:href="@{/user/dashboard}" class="nav-link" th:class="|nav-link ${#strings.startsWith(requestURI, '/user/dashboard') ? ' active' : ''}|">
+                  <i class="bi bi-info-circle"></i>
+                  个人资料
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
-      <div class="blog-edit-container" id="addBlog" style="display:none;">
-        <!-- 标题编辑区 -->
-        <div class="title">
-          <input type="text" placeholder="在这里写下文章标题" id="title">
-          <button id="submit">发布文章</button>
+
+      <div class="col-lg-9 mt-3 mt-lg-0">
+        <div class="card shadow-sm">
+          <div class="card-header">
+            个人资料
+          </div>
+          <div class="card-body">
+            <p class="item">
+              用户名：<span sec:authentication="name"></span>
+            </p>
+            <p class="item">
+              邮&emsp;箱：<span sec:authentication="principal.user.email"></span>
+            </p>
+          </div>
         </div>
-        <!-- 创建编辑器标签 -->
-        <div id="editor"></div>
       </div>
+    </div>
   </div>
 </div>

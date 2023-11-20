@@ -28,7 +28,7 @@ public class SecurityTest extends  WithMockUserBaseTest{
     @Test
     void dashboard() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/admin/users"))
-                .andExpect(MockMvcResultMatchers.view().name("backend/users"))
+                .andExpect(MockMvcResultMatchers.view().name("backend/user/index"))
                 .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("<li class=\"breadcrumb-item active\">Users</li>")))
         ;
     }

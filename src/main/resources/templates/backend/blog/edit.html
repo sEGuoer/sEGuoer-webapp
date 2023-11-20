@@ -1,0 +1,35 @@
+<div th:replace="~{ backend/app :: layout ('Edit Blog', ~{fragment :: #css_content}, ~{::#main}, ~{fragment :: #js_content}) }" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+  <div class="content-wrapper" id="main">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-12 d-flex justify-content-between">
+            <h1>Edit Post</h1>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <form id="post-form" method="post" action="#" th:action="@{/admin/blog/update}" enctype="multipart/form-data" th:object="${post}">
+                <input type="hidden" name="_method" value="PUT">
+                <div th:replace="~{fragment :: #post-form-items}"></div>
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">更新</button>
+                </div>
+              </form>
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+</div>

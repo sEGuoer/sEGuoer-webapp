@@ -1,10 +1,12 @@
 spring:
   application:
     name: lms
+
   datasource:
     url: jdbc:mysql://localhost:3306/jpa?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=utf8
     username: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
 #    generate-ddl: true
     show-sql: true
@@ -12,6 +14,7 @@ spring:
 #    user:
 #      name: 'zcy0052800@1'
 #      password: 'zcy521'
+
   mail:
     host: localhost
     port: 1025
@@ -25,3 +28,6 @@ my:
       - name: 'users'
         description: "/admin/users"
         data: 'users'
+      - name: "blogs"
+        description: "/admin/blogs"
+        data: "file-alt"

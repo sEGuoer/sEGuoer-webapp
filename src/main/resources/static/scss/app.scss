@@ -1,0 +1,25 @@
+// Variables
+@import "partials/custom";
+
+// Import all of Bootstrap's CSS
+@import "bootstrap/scss/bootstrap";
+
+// Common
+@import "partials/common";
+
+// Header
+@import "partials/header";
+
+// Feature
+@import "partials/feature";
+
+@import "partials/post";
+
+@import "partials/pagination";
+
+// Footer
+@import "partials/footer";
+
+@import "partials/user-center";
+
+@import "partials/post";

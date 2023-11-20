@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableMethodSecurity//允许使用 @PreAuthorize 和 @PostAuthorize 注解来保护单个方法。
 public class SecurityConfig {
     @Autowired
     CustomLogoutSuccessHandler customLogoutSuccessHandler;
@@ -40,7 +42,7 @@ public class SecurityConfig {
                         .rememberMeParameter("remember-me")
                 )
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/","/login","/build/**","/vendor/**").permitAll()
+//                        .requestMatchers("/","/login","/build/**","/vendor/**").permitAll()
                         .requestMatchers("/admin/**").hasAnyRole("admin")
                         .anyRequest().permitAll()
                 );
@@ -59,8 +61,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/img/**");
-    }
 }

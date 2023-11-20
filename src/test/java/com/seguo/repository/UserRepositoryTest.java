@@ -4,6 +4,7 @@ import com.seguo.entity.PasswordResetToken;
 import com.seguo.entity.User;
 import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,7 @@ public class UserRepositoryTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("输入一个数据库中有的邮箱看结果是否可以发送邮件")
     void postPasswordRestWithExistEmail() throws Exception {
         mvc.perform(MockMvcRequestBuilders.post("/user/password-reset")

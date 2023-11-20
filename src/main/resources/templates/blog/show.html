@@ -1,0 +1,62 @@
+<div th:replace="~{ app :: layout (${post.title}, _, ~{::#main_content}, _) }" xmlns:th="http://www.thymeleaf.org">
+    <section class="single-post container" id="main_content">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="title" th:text="${post.title}"></h1>
+                <p class="meta text-muted">
+                    <span href="#" th:text="${post.user.name}"></span>
+                    <span> - </span>
+                    <i>[[${post.created_at}]]</i>
+                </p>
+                <div id="vditor-preview-element" class="markdown-body js-toc-content animate__animated animate__fadeInLeft">
+                    <div class="d-none" id="content" th:text="${post.content}"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 offset-lg-1">
+                <div id="outline" class="js-toc toc sticky-top d-none d-lg-block animate__animated animate__fadeInRight animate__delay-1s"></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<link href="../../static/vendor/vditor/dist/index.css" th:href="@{/vendor/vditor/dist/index.css}" rel="stylesheet">
+<link rel="stylesheet" href="../../static/vendor/tocbot/dist/tocbot.css" th:href="@{/vendor/tocbot/dist/tocbot.css}">
+
+<script src="../../static/vendor/tocbot/dist/tocbot.js" th:src="@{/vendor/tocbot/dist/tocbot.js}"></script>
+<script src="../../static/vendor/vditor/dist/method.min.js" th:src="@{/vendor/vditor/dist/method.min.js}"></script>
+<script>
+    Vditor.preview(document.getElementById('vditor-preview-element'), document.getElementById('content').textContent,
+        {
+            cdn: '/vendor/vditor',
+            theme: {
+                path: '/vendor/vditor/dist/css/content-theme',
+            },
+            lazyLoadImage: '/vendor/vditor/dist/images/img-loading.svg',
+            after () {
+                tocbot.init({
+                    // Where to render the table of contents.
+                    tocSelector: '.js-toc',
+                    // Where to grab the headings to build the table of contents.
+                    contentSelector: '.js-toc-content',
+                    // Which headings to grab inside of the contentSelector element.
+                    headingSelector: 'h1, h2, h3, h4, h5, h6',
+                    // For headings inside relative or absolute positioned containers within content.
+                    hasInnerContainers: false,
+                    collapseDepth: 6,
+                });
+                $(".js-toc a.toc-link").mouseover(function () {
+                    $(this).attr('title', $(this).text());
+                });
+                $('.js-toc a.toc-link').on('click', function(e){
+                    //store hash
+                    const href = $(this).attr("href");
+                    const hash = href.substr(href.indexOf("#"));
+                    // animate
+                    $(hash).animateCss('slow');
+                    $(hash).animateCss('flash');
+                });
+            },
+        }
+    );
+</script>

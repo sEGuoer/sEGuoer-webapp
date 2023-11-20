@@ -9,6 +9,7 @@ import com.seguo.service.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +62,8 @@ public class UserController {
     String passwordReset(@Valid @ModelAttribute("passwordResetEmail") PasswordResetEmailDto passwordResetEmailDto,
                          BindingResult result,
                          Model model,
-                         RedirectAttributes attributes) throws MessagingException, UnsupportedEncodingException {
+                         RedirectAttributes attributes,
+                         HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
         User existingUser = userService.findUserByEmail(passwordResetEmailDto.getEmail());
         if (existingUser == null) {
             result.rejectValue("email", "non-existent", "找不到该邮箱对应的用户信息");
@@ -90,7 +92,8 @@ public class UserController {
         helper.setFrom(new InternetAddress("admin@example.com", "Admin"));
         helper.setSubject("重置密码");
         helper.setTo(existingUser.getEmail());
-        helper.setText("<html><body><p>点击以下链接进行密码重置</p><a href='" + "localhost:8080" + "/user/do-password-reset?token=" + token.getToken() + "'>重置密码</a><p>链接将在 30 分钟后失效，请尽快操作。</p></body></html>", true);
+        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        helper.setText("<html><body><p>点击以下链接进行密码重置</p><a href='" + baseUrl + "/user/do-password-reset?token=" + token.getToken() + "'>重置密码</a><p>链接将在 30 分钟后失效，请尽快操作。</p></body></html>", true);
 
         sender.send(message);
 
@@ -111,6 +114,7 @@ public class UserController {
         }
 
         PasswordResetDto passwordResetDto = new PasswordResetDto();
+        passwordResetDto.setToken(token);
         model.addAttribute("passwordResetDto", passwordResetDto);
 
         return "user/password-reset";

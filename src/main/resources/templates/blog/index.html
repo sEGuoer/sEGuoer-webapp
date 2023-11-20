@@ -1,0 +1,33 @@
+<div th:replace="~{ app :: layout ('博客', _, ~{::#main_content}, _) }" xmlns:th="http://www.thymeleaf.org">
+    <div class="container" id="main_content">
+        <div class="mx-lg-auto">
+            <div class="row">
+                <div class="col-md-6" th:each="post, stats:${page.getContent()}">
+                    <article th:class="|border-bottom h-100 pb-5 ${stats.index > 0 ? 'pt-5' : '' } ${ stats.index < 2 ? 'pt-md-0' : '' }|">
+                        <div class="row justify-content-between">
+                            <div class="col-7">
+                                <h2 class="mb-2 h5"><a class="text-inherit" th:href="@{'/blogs/' + ${post.id}}" th:text="${post.title}">{{ $post->title }}</a></h2>
+                                <div class="small text-muted">
+                                    <span th:text="${post.user.name}">{{ $post->user->name }}</span>
+                                    <span> - </span>
+                                    <i th:text="${post.created_at}">{{ $post->created_at->diffForHumans() }}</i>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="d-flex">
+                                    <a th:href="@{'/blogs/' + ${post.id}}" class="w-100">
+                                        <img class="img-fluid shadow-sm rounded ratio-16x9" th:src="${post.cover}">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <nav th:if="${page.getTotalPages() > 1}" class="kx-pagination d-flex mt-5 justify-content-end">
+                <div th:replace="~{fragment :: #pagination-container}"></div>
+            </nav>
+        </div>
+    </div>
+</div>

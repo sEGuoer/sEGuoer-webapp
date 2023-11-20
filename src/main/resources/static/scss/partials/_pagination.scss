@@ -1,0 +1,32 @@
+.kx-pagination {
+    .page-link {
+        border: none;
+        border-radius: 0;
+        position: relative;
+        display: block;
+        padding: 0.5rem 0.75rem;
+        line-height: 1.25;
+        color: $gray-600;
+
+        &:hover {
+            color: #fff;
+            text-decoration: none;
+            background-color: $primary;
+        }
+    }
+
+    .page-item {
+        border: none;
+
+        &.active .page-link {
+            background-color: $gray-900;
+            border-color: transparent;
+            color:#fff;
+        }
+
+        &:last-child .page-link,
+        &:first-child .page-link {
+            border-radius: 0;
+        }
+    }
+}

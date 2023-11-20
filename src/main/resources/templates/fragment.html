@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div id="pagination-container" class="pt-1">
+  <p class="text-muted p-1">当前第 [[${page.getNumber()+1}]] 页，总计 [[${page.getTotalPages()}]] 页，共 [[${page.getTotalElements()}]] 条记录</p>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item" th:if="${page.hasPrevious()}">
+        <a class="page-link" href="#" th:href="@{${requestURI}(page=${page.getNumber()})}" tabindex="-1" aria-disabled="true">Previous</a>
+      </li>
+      <li th:class="${currentPageNumber == page.getNumber()+1 ? 'page-item active' : 'page-item'}" class="page-item" th:each="currentPageNumber:${#numbers.sequence(1, page.getTotalPages())}"><a class="page-link" th:href="@{${requestURI}(page=${currentPageNumber})}" href="#">[[${currentPageNumber}]]</a></li>
+      <li class="page-item" th:if="${page.hasNext()}">
+        <a class="page-link" href="#" th:href="@{${requestURI}(page=${page.getNumber()+2})}">Next</a>
+      </li>
+    </ul>
+  </nav>
+</div>
+<div class="card-body"  id="post-form-items">
+  <input type="hidden" name="id" th:value="*{id}">
+  <input type="hidden" name="user_id" th:value="${#authentication.principal.user.id}">
+
+  <div class="form-group">
+    <label for="title">标题</label>
+    <input th:field="*{title}" type="text" class="form-control" th:class="|form-control ${#fields.hasErrors('title') ? 'is-invalid' : ''}|" name="title" id="title" placeholder="标题" required>
+    <span th:if="${#fields.hasErrors('title')}" id="title-error" class="error invalid-feedback" th:errors="*{title}"></span>
+  </div>
+  <div class="form-group only-standard">
+    <label for="content">内容</label>
+    <div id="content">
+      <textarea th:field="*{content}" name="content" class="form-control" th:class="|form-control ${#fields.hasErrors('content') ? 'is-invalid' : ''}|" rows="6" required></textarea>
+      <span th:if="${#fields.hasErrors('content')}" id="content-error" class="error invalid-feedback" th:errors="*{content}"></span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="description">描述</label>
+    <div id="description">
+      <textarea th:field="*{description}" name="description" class="form-control" rows="2"></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="type-select">类型</label>
+    <select th:field="*{type}" class="form-control" th:class="|form-control ${#fields.hasErrors('type') ? 'is-invalid' : ''}|" id="type-select" name="type">
+      <option value="post">博客</option>
+      <option value="resource">资源</option>
+    </select>
+    <span th:if="${#fields.hasErrors('type')}" id="type-error" class="error invalid-feedback" th:errors="*{type}"></span>
+  </div>
+  <div class="form-group">
+    <label for="status-select">状态</label>
+    <select th:field="*{status}" class="form-control" id="status-select" name="status">
+      <option value="1">发布</option>
+      <option value="0">草稿</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="cover">封面图片</label>
+    <div>
+      <input type="file" name="coverFile" id="cover" class="d-block">
+      <img th:if="!${#strings.isEmpty(post.cover)}" th:src="*{cover}" class="img-fluid blog-post-cover mt-2" alt="blog-post-cover">
+    </div>
+  </div>
+</div>
+
+<link id="css_content" rel="stylesheet" href="../static/vendor/vditor/dist/index.css" th:href="@{/vendor/vditor/dist/index.css}">
+
+<div id="js_content">
+  <script src="/vendor/vditor/dist/index.min.js" defer></script>
+  <script>
+    $(function() {
+      let vditor = new Vditor('content', {
+        mode: 'sv',
+        height: 500,
+        cdn: '/vendor/vditor',
+        preview: {
+          theme: {
+            path: '/vendor/vditor/dist/css/content-theme',
+          }
+        },
+        counter: {
+          enable: true,
+        },
+        cache: {
+          enable: false,
+        },
+        upload: {
+          url: '/admin/images/uploadFromVditor' ,
+          fieldName: 'image[]',
+          max: 10 * 1024 * 1024,
+          headers: {
+            'accept': 'application/json',
+          },
+        }
+      })
+
+      $("#post-form").submit(function() {
+        $(this).append(
+                $('<textarea />').attr("id", "content-textarea")
+                        .attr("class", "d-none")
+                        .attr('name', 'content')
+        );
+        $('#content-textarea').val(vditor.getValue());
+        return true;
+      });
+    });
+  </script>
+</div>
+</body>
+</html>

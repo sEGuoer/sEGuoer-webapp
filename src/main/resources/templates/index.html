@@ -1,4 +1,4 @@
-<div th:replace="~{ app :: layout ('Home Page', _, ~{::#main_content}) }" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{ app :: layout ('Home Page', _, ~{::#main_content}, _) }" xmlns:th="http://www.thymeleaf.org">
     <div class="features" id="main_content">
         <div class="feature">
             <div class="container">
@@ -9,7 +9,7 @@
                     </div>
                     <div class="col-lg-6 mt-3 mt-lg-0">
                         <div class="text-center" data-aos="zoom-in">
-                            <img class="img-fluid shadow" src="img/about/resources.png" alt="coding">
+                            <img class="img-fluid shadow" src="../static/img/about/resources.png" th:src="@{/img/about/resources.png}" alt="coding">
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-lg-6 mt-3 mt-lg-0 order-2 order-lg-1">
                         <div class="text-center" data-aos="zoom-in">
-                            <img class="img-fluid shadow" src="img/about/videos.png" alt="design">
+                            <img class="img-fluid shadow" src="../static/img/about/videos.png" th:src="@{/img/about/videos.png}" alt="design">
                         </div>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                     </div>
                     <div class="col-lg-6 mt-3 mt-lg-0">
                         <div class="text-center" data-aos="zoom-in">
-                            <img class="img-fluid shadow" src="img/about/docs.png" alt="coding">
+                            <img class="img-fluid shadow" src="../static/img/about/docs.png" th:src="@{img/about/docs.png}" alt="coding">
                         </div>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                     </div>
                     <div class="col-lg-6 mt-3 mt-lg-0 order-2 order-lg-1">
                         <div class="text-center" data-aos="zoom-in">
-                            <img class="img-fluid shadow" src="img/about/posts.png" alt="life">
+                            <img class="img-fluid shadow" src="../static/img/about/posts.png" th:src="@{/img/about/posts.png}" alt="life">
                         </div>
                     </div>
                 </div>
